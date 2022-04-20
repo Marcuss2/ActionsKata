@@ -18,17 +18,17 @@ jobs:
       run: echo Welcome
 
   build:
-    runs-on: ubuntu-latest
-
+    needs: welcome
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-
     - name: Build
       run: dotnet build --configuration Release --no-restore
-
+  test:
+    needs: build
+    steps:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
